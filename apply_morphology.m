@@ -30,20 +30,24 @@ function [s1, s2, s3, s4, s5] = apply_morphology (img, shape, se)
   
   CC = bwconncomp(s3);
   numPixels = cellfun(@numel,CC.PixelIdxList);
-  [sortvalues, sortindex] = sort(numPixels, 'descend');
-  _1st_big = sortvalues(1);
-  _1st_idx = sortindex(1);
+  if numel(numPixels) > 0
+    [sortvalues, sortindex] = sort(numPixels, 'descend');
+    _1st_big = sortvalues(1);
+    _1st_idx = sortindex(1);
+    
+    _2nd_big = sortvalues(1);
+    _2nd_idx = sortindex(1);
   
-  _2nd_big = sortvalues(1);
-  _2nd_idx = sortindex(1);
-  
-  if numel(numPixels) > 1
-    _2nd_big = sortvalues(2);
-    _2nd_idx = sortindex(2);
-  endif  
-  s4 = zeros(shape);
-  s4(CC.PixelIdxList{_1st_idx}) = 1;
-  s4(CC.PixelIdxList{_2nd_idx}) = 1;
-  
-  s5 = apply_conditional_dilation(s4, se, shape);
+    if numel(numPixels) > 1
+      _2nd_big = sortvalues(2);
+      _2nd_idx = sortindex(2);
+    endif  
+    s4 = zeros(shape);
+    s4(CC.PixelIdxList{_1st_idx}) = 1;
+    s4(CC.PixelIdxList{_2nd_idx}) = 1;
+    
+    s5 = apply_conditional_dilation(s4, se, shape);
+  else
+    s4 = s5 = s3;
+  endif
 endfunction

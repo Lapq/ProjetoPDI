@@ -80,8 +80,14 @@ for i = 1:nrimgs
   
   # formatando diff para ser uma imagem devidamente indexada, para aplicação de um colormap
   colormap = [0	0	0; 0 1 1; 1 0 0; 1 1 1;];
+  diff(1, 1) = 0;
+  diff(1, 2) = 1;
+  diff(1, 3) = 2;
+  diff(1, 4) = 3;
+  
   diff = gray2ind(normalize_img(diff, [0 1]), 4);
   rgb_diff = ind2rgb(diff, colormap);
+  rgb_diff(1, 1, :) = rgb_diff(1, 2, :) = rgb_diff(1, 3, :) = rgb_diff(1, 4, :) = 0;
   
   # Stores results
   # tirei alguns que não eram usados
@@ -97,4 +103,4 @@ images2plot{2} = results;
 images2plot{3} = masks;
 images2plot{4} = diffs;
 
-plot_many(images2plot, nrimgs, CM);
+plot_many(images2plot, nrimgs, CM, true);
