@@ -14,20 +14,18 @@
 ## along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {} {@var{retval} =} change_res (@var{input1}, @var{input2})
+## @deftypefn {} {@var{retval} =} normalize_img (@var{input1}, @var{input2})
 ##
 ## @seealso{}
 ## @end deftypefn
 
-## Author: USUARIO <USUARIO@DESKTOP-0C9S2SE>
-## Created: 2022-10-18
+## Author: USUARIO <USUARIO@NOT-VCI-80>
+## Created: 2022-12-01
 
-function valor = change_res (valor, shape)
-  if numel(valor) != 1
-    for i = 1:numel(valor)
-      valor{i} = uint8(valor{i}*(shape/128))
-    endfor
-  else
-    valor = uint8(valor*(shape/128));
-  endif
+function new_I = normalize_img (I, interval)
+  min_val = min(I(:));
+  shift = min_val - interval(1);
+  new_I = I .- shift;
+  max_val = max(new_I(:));
+  new_I = (new_I .* interval(2))./max_val;
 endfunction

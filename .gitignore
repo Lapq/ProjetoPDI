@@ -1,2 +1,8 @@
 
 ProjetoPDI/
+adaptivethreshold.m
+iterative_open_brightening.m
+teste.m
+sigmoid_and_normalize.m
+regiongrowing.m
+regiongrowing_mod.m

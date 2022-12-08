@@ -14,20 +14,20 @@
 ## along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {} {@var{retval} =} change_res (@var{input1}, @var{input2})
+## @deftypefn {} {@var{retval} =} apply_conditional_dilation (@var{input1}, @var{input2})
 ##
 ## @seealso{}
 ## @end deftypefn
 
-## Author: USUARIO <USUARIO@DESKTOP-0C9S2SE>
-## Created: 2022-10-18
+## Author: USUARIO <USUARIO@NOT-VCI-80>
+## Created: 2022-12-07
 
-function valor = change_res (valor, shape)
-  if numel(valor) != 1
-    for i = 1:numel(valor)
-      valor{i} = uint8(valor{i}*(shape/128))
-    endfor
-  else
-    valor = uint8(valor*(shape/128));
-  endif
+function new_img = apply_conditional_dilation (img, se, shape, y_lim = 0.75, x_lim = 0.2)
+  new_img = img;
+  max_y = round(shape(1)*y_lim);
+  max_x_left = round(shape(1)*x_lim);
+  min_x_right = round(shape(1)*(1-x_lim));
+  
+  new_img(1:max_y, 1:max_x_left) = imdilate(new_img(1:max_y, 1:max_x_left), se);
+  new_img(1:max_y, min_x_right:shape(1)) = imdilate(new_img(1:max_y, min_x_right:shape(1)), se);
 endfunction

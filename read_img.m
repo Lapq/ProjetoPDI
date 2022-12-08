@@ -22,7 +22,7 @@
 ## Author: USUARIO <USUARIO@DESKTOP-0C9S2SE>
 ## Created: 2022-10-18
 
-function [originals, masks] = read_img (original_path, masks_path, shape, original_type, mask_type)
+function [originals, masks, nrimgs] = read_img (original_path, masks_path, shape, original_type, mask_type)
   original_files = glob( strcat(original_path, "*.", original_type) );
   original_f_count = numel(original_files);
   mask_files = glob( strcat(masks_path, "*.", mask_type) );
@@ -34,11 +34,12 @@ function [originals, masks] = read_img (original_path, masks_path, shape, origin
     aux = imread(original_files{i}, original_type);
     aux = imresize(aux, shape);
     aux = im2double(aux);
-    originals{i} = aux;
+    originals{i} = 1-aux;
   endfor;
    for i = 1:mask_f_count
     aux = imread(mask_files{i}, mask_type);
     aux = imresize(aux, shape);
     masks{i} = aux;
   endfor;
+  nrimgs = length(originals);
 endfunction

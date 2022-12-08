@@ -14,20 +14,19 @@
 ## along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {} {@var{retval} =} change_res (@var{input1}, @var{input2})
+## @deftypefn {} {@var{retval} =} change_edges (@var{input1}, @var{input2})
 ##
 ## @seealso{}
 ## @end deftypefn
 
-## Author: USUARIO <USUARIO@DESKTOP-0C9S2SE>
-## Created: 2022-10-18
+## Author: USUARIO <USUARIO@NOT-VCI-80>
+## Created: 2022-12-02
 
-function valor = change_res (valor, shape)
-  if numel(valor) != 1
-    for i = 1:numel(valor)
-      valor{i} = uint8(valor{i}*(shape/128))
-    endfor
-  else
-    valor = uint8(valor*(shape/128));
-  endif
+function img = change_edges (img, size_var, value)
+  maxrow = (size(img))(1);
+  maxcol = (size(img))(2);
+  img(:, 1:size_var) = value;
+  img(:, maxcol-size_var:maxcol) = value;
+  img(1:size_var, :) = value;
+  img(maxrow-size_var:maxrow, :) = value;
 endfunction
